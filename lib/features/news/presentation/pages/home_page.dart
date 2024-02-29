@@ -98,7 +98,55 @@ class _HomePageState extends State<HomePage> {
                 listener: (context, state) {},
                 builder: (context, state) {
                   if (state is NewsLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: 10,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.grey.shade200,
+                              highlightColor: Colors.grey.shade400,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 150,
+                                    width: 150,
+                                    color: Colors.red,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 30,
+                                          width: double.infinity,
+                                          color: Colors.red,
+                                        ),
+                                        const SizedBox(
+                                          height: 50,
+                                        ),
+                                        Container(
+                                          height: 30,
+                                          width: double.infinity,
+                                          color: Colors.red,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
                   }
 
                   if (state is NewsLoaded) {
@@ -128,10 +176,10 @@ class _HomePageState extends State<HomePage> {
                                           MediaQuery.of(context).size.height /
                                               5,
                                       fit: BoxFit.cover,
-                                      // placeholder: (context, url) =>
-                                      //     const Center(
-                                      //         child:
-                                      //             CircularProgressIndicator()),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
                                       errorWidget: (context, url, error) =>
                                           Image.asset(
                                         'images/placeholder.png',
@@ -162,6 +210,8 @@ class _HomePageState extends State<HomePage> {
                                               fontSize: 12,
                                               fontWeight: FontWeight.w500),
                                           textAlign: TextAlign.start,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 4,
                                         ),
                                         const SizedBox(
                                           height: 40,

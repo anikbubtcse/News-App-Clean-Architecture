@@ -38,7 +38,7 @@ class ArticlesModel extends ArticlesEntity {
         source: json["source"] != null
             ? SourceModel.fromJson(json["source"])
             : SourceModel.fromJson({}),
-        author: json["author"] ?? '',
+        author: json["author"] ?? 'Unknown',
         title: json["title"] ?? '',
         description: json["description"] ?? '',
         url: json["url"] ?? '',
