@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:news_app_clean_architecture/features/news/presentation/bloc/news_bloc.dart';
 import 'package:news_app_clean_architecture/features/news/presentation/pages/news_description_page.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -94,157 +95,157 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            BlocConsumer<NewsBloc, NewsState>(
-                listener: (context, state) {},
-                builder: (context, state) {
-                  if (state is NewsLoading) {
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.grey.shade200,
-                              highlightColor: Colors.grey.shade400,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 150,
-                                    width: 150,
-                                    color: Colors.red,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 30,
-                                          width: double.infinity,
-                                          color: Colors.red,
-                                        ),
-                                        const SizedBox(
-                                          height: 50,
-                                        ),
-                                        Container(
-                                          height: 30,
-                                          width: double.infinity,
-                                          color: Colors.red,
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }
+            BlocConsumer<NewsBloc, NewsState>(listener: (context, state) {
+              if (state is NewsLoading) {
+                context.loaderOverlay.show();
+              }
 
-                  if (state is NewsLoaded) {
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: state.newsEntity.articles.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    NewsDescriptionPage.newsDescriptionPage,
-                                    arguments:
-                                        state.newsEntity.articles[index]);
-                              },
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: CachedNetworkImage(
-                                      imageUrl: state.newsEntity.articles[index]
-                                          .urlToImage,
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              5,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                        'images/placeholder.png',
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2.5,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                5,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          state
-                                              .newsEntity.articles[index].title,
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500),
-                                          textAlign: TextAlign.start,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 4,
-                                        ),
-                                        const SizedBox(
-                                          height: 40,
-                                        ),
-                                        Text(
-                                          "Author: ${state.newsEntity.articles[index].author}",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500),
-                                          textAlign: TextAlign.start,
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
+              if (state is NewsLoaded) {
+                context.loaderOverlay.hide();
+              }
+            }, builder: (context, state) {
+              if (state is NewsLoading) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey.shade200,
+                          highlightColor: Colors.grey.shade400,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 150,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.red,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 30,
+                                      width: double.infinity,
+                                      color: Colors.red,
+                                    ),
+                                    const SizedBox(
+                                      height: 50,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      width: double.infinity,
+                                      color: Colors.red,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
 
-                  if (state is NewsError) {
-                    return Center(
-                        child: Text(
-                      state.message,
-                      style: GoogleFonts.poppins(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ));
-                  }
-                  return Container();
-                })
+              if (state is NewsLoaded) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: state.newsEntity.articles.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                                NewsDescriptionPage.newsDescriptionPage,
+                                arguments: state.newsEntity.articles[index]);
+                          },
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                  imageUrl: state
+                                      .newsEntity.articles[index].urlToImage,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
+                                  height:
+                                      MediaQuery.of(context).size.height / 5,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    'images/placeholder.png',
+                                    width:
+                                        MediaQuery.of(context).size.width / 2.5,
+                                    height:
+                                        MediaQuery.of(context).size.height / 5,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      state.newsEntity.articles[index].title,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500),
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 4,
+                                    ),
+                                    const SizedBox(
+                                      height: 40,
+                                    ),
+                                    Text(
+                                      "Author: ${state.newsEntity.articles[index].author}",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+
+              if (state is NewsError) {
+                return Center(
+                    child: Text(
+                  state.message,
+                  style: GoogleFonts.poppins(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                ));
+              }
+              return Container();
+            })
           ],
         ),
       ),

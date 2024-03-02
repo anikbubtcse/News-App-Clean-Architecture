@@ -4,6 +4,8 @@ import 'package:news_app_clean_architecture/core/dependency_container.dart';
 import 'package:news_app_clean_architecture/features/news/presentation/bloc/news_bloc.dart';
 import 'package:news_app_clean_architecture/features/news/presentation/pages/news_description_page.dart';
 import 'features/news/presentation/pages/home_page.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 Future<void> main() async {
   setupLocator();
@@ -19,19 +21,32 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => locator<NewsBloc>()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        initialRoute: HomePage.myHomePage,
-        routes: {
-          NewsDescriptionPage.newsDescriptionPage: (context) =>
-              NewsDescriptionPage(),
-          HomePage.myHomePage: (context) => HomePage(),
+      child: GlobalLoaderOverlay(
+        overlayColor: Colors.grey.withOpacity(0.8),
+        useDefaultLoading: false,
+        overlayWidgetBuilder: (_) {
+          //ignored progress for the moment
+          return Center(
+            child: SpinKitSpinningLines(
+              color: Colors.white,
+              size: 80,
+            ),
+          );
         },
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          initialRoute: HomePage.myHomePage,
+          routes: {
+            NewsDescriptionPage.newsDescriptionPage: (context) =>
+                NewsDescriptionPage(),
+            HomePage.myHomePage: (context) => HomePage(),
+          },
+        ),
       ),
     );
   }

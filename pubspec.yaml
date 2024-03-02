@@ -23,6 +23,8 @@ dev_dependencies:
   get_it: ^7.6.7
   cached_network_image: ^3.2.3
   shimmer: ^3.0.0
+  loader_overlay: ^4.0.0
+  flutter_spinkit: ^5.2.0
   flutter_lints: ^2.0.0
 
 

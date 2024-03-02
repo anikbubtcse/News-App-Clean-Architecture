@@ -23,7 +23,8 @@ class NewsRemoteDataSourceImpl extends NewsRemoteDataSource {
 
   @override
   Future<NewsModel> getAllNews() async {
-    final response = await client.get(Uri.parse(Constants.allNewsUrl));
+    final response = await client.get(Uri.parse(Constants.allNewsUrl),
+        headers: {"Connection": "Keep-Alive"});
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body.toString());
@@ -37,7 +38,8 @@ class NewsRemoteDataSourceImpl extends NewsRemoteDataSource {
 
   @override
   Future<NewsModel> getBreakingNews() async {
-    final response = await client.get(Uri.parse(Constants.breakingNewsUrl));
+    final response = await client.get(Uri.parse(Constants.breakingNewsUrl),
+        headers: {"Connection": "Keep-Alive"});
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body.toString());
@@ -51,7 +53,8 @@ class NewsRemoteDataSourceImpl extends NewsRemoteDataSource {
 
   @override
   Future<NewsModel> getPopularNews() async {
-    final response = await client.get(Uri.parse(Constants.popularNewsUrl));
+    final response = await client.get(Uri.parse(Constants.popularNewsUrl),
+        headers: {"Connection": "Keep-Alive"});
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body.toString());
@@ -65,7 +68,8 @@ class NewsRemoteDataSourceImpl extends NewsRemoteDataSource {
 
   @override
   Future<NewsModel> getSportsNews() async {
-    final response = await client.get(Uri.parse(Constants.sportsNewsUrl));
+    final response = await client.get(Uri.parse(Constants.sportsNewsUrl),
+        headers: {"Connection": "Keep-Alive"});
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body.toString());
