@@ -28,7 +28,8 @@ class NewsRemoteDataSourceImpl extends NewsRemoteDataSource {
     final response = await client.get(Uri.parse(Constants.allNewsUrl),
         headers: {"Connection": "Keep-Alive"});
 
-    log.debug(title: "All News Response Code", message: response.body);
+    log.debug(title: "All News Response Code", message: response.statusCode);
+    log.debug(title: "All News Response", message: response.body);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body.toString());
