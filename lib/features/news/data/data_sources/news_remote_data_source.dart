@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:news_app_clean_architecture/core/constants.dart';
 import 'package:news_app_clean_architecture/core/exceptions.dart';
 
+import '../../../../core/log.dart';
 import '../models/news_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,13 +19,16 @@ abstract class NewsRemoteDataSource {
 
 class NewsRemoteDataSourceImpl extends NewsRemoteDataSource {
   final http.Client client;
+  final Log log;
 
-  NewsRemoteDataSourceImpl({required this.client});
+  NewsRemoteDataSourceImpl({required this.client, required this.log});
 
   @override
   Future<NewsModel> getAllNews() async {
     final response = await client.get(Uri.parse(Constants.allNewsUrl),
         headers: {"Connection": "Keep-Alive"});
+
+    log.debug(title: "All News Response Code", message: response.body);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body.toString());

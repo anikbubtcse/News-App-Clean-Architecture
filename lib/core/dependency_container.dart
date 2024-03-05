@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:news_app_clean_architecture/core/log.dart';
 import 'package:news_app_clean_architecture/features/news/data/data_sources/news_remote_data_source.dart';
 import 'package:news_app_clean_architecture/features/news/domain/usecases/get_all_news_use_case.dart';
 import 'package:news_app_clean_architecture/features/news/domain/usecases/get_breaking_news_use_case.dart';
@@ -40,7 +41,11 @@ void setupLocator() {
   //datasource
 
   locator.registerLazySingleton<NewsRemoteDataSource>(
-      () => NewsRemoteDataSourceImpl(client: locator()));
+      () => NewsRemoteDataSourceImpl(client: locator(), log: locator()));
+
+  //core
+
+  locator.registerLazySingleton<Log>(() => LogImpl());
 
   //external
 
